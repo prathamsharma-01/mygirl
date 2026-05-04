@@ -1,0 +1,19 @@
+{
+  "name": "aria-ai-companion",
+  "version": "1.0.0",
+  "description": "Aria — Premium AI Voice Companion",
+  "scripts": {
+    "dev": "npm run dev:backend & npm run dev:frontend",
+    "build": "cd frontend && npm run build",
+    "start": "npm run start:backend & npm run start:frontend",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "build:all": "cd frontend && npm run build",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start"
+  },
+  "keywords": ["AI", "voice", "companion", "grok"],
+  "author": "Pratham Sharma",
+  "license": "MIT"
+}

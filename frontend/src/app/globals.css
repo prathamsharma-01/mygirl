@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+/* ─── CSS Variables ─────────────────────────────── */
+:root {
+  --bg-primary: #080812;
+  --bg-secondary: #0d0d1f;
+  --bg-card: rgba(255,255,255,0.04);
+  --purple-1: #7c3aed;
+  --purple-2: #9333ea;
+  --purple-3: #a855f7;
+  --purple-4: #c084fc;
+  --pink-1: #db2777;
+  --pink-2: #ec4899;
+  --glow-purple: rgba(124,58,237,0.4);
+  --glow-pink: rgba(219,39,119,0.3);
+  --border: rgba(255,255,255,0.08);
+  --text-primary: #f8fafc;
+  --text-secondary: rgba(248,250,252,0.6);
+  --text-muted: rgba(248,250,252,0.35);
+}
+
+/* ─── Base ──────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--glow-purple); color: white; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.4); border-radius: 2px; }
+
+/* ─── Neon Glow Effects ─────────────────────────── */
+.glow-purple {
+  box-shadow: 0 0 20px var(--glow-purple), 0 0 60px rgba(124,58,237,0.15);
+}
+.glow-pink {
+  box-shadow: 0 0 20px var(--glow-pink), 0 0 60px rgba(219,39,119,0.1);
+}
+.text-glow {
+  text-shadow: 0 0 20px rgba(168,85,247,0.8), 0 0 40px rgba(168,85,247,0.4);
+}
+
+/* ─── Glassmorphism ─────────────────────────────── */
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.glass-dark {
+  background: rgba(8,8,18,0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.glass-purple {
+  background: rgba(124,58,237,0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(124,58,237,0.2);
+}
+
+/* ─── Gradient Text ─────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #a855f7, #ec4899, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-blue {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Animated Gradient BG ──────────────────────── */
+.animated-bg {
+  background: linear-gradient(-45deg, #080812, #0d0a1f, #0a0818, #120830);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+}
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ─── Floating Particles ────────────────────────── */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: floatParticle linear infinite;
+}
+@keyframes floatParticle {
+  0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+}
+
+/* ─── Voice Waveform ────────────────────────────── */
+.waveform-bar {
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(to top, var(--purple-1), var(--purple-4));
+  animation: waveAnim ease-in-out infinite alternate;
+}
+@keyframes waveAnim {
+  from { transform: scaleY(0.3); }
+  to   { transform: scaleY(1); }
+}
+
+/* ─── Pulse Ring ────────────────────────────────── */
+.pulse-ring {
+  animation: pulseRing 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+@keyframes pulseRing {
+  0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(168,85,247,0.5); }
+  70%  { transform: scale(1);    box-shadow: 0 0 0 20px rgba(168,85,247,0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(168,85,247,0); }
+}
+
+/* ─── Typing Dots ───────────────────────────────── */
+.typing-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--purple-3);
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+  40%            { transform: scale(1.1); opacity: 1; }
+}
+
+/* ─── Avatar Glow ───────────────────────────────── */
+.avatar-glow {
+  animation: avatarPulse 3s ease-in-out infinite;
+}
+@keyframes avatarPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(168,85,247,0.4), 0 0 60px rgba(168,85,247,0.15); }
+  50%       { box-shadow: 0 0 30px rgba(168,85,247,0.6), 0 0 80px rgba(168,85,247,0.25), 0 0 120px rgba(236,72,153,0.15); }
+}
+
+/* ─── Speaking Avatar ───────────────────────────── */
+.speaking-glow {
+  animation: speakingPulse 0.8s ease-in-out infinite alternate;
+}
+@keyframes speakingPulse {
+  from { box-shadow: 0 0 25px rgba(168,85,247,0.5), 0 0 70px rgba(168,85,247,0.2); }
+  to   { box-shadow: 0 0 45px rgba(236,72,153,0.7), 0 0 100px rgba(236,72,153,0.3), 0 0 150px rgba(168,85,247,0.2); }
+}
+
+/* ─── Listening Ring ────────────────────────────── */
+.listening-ring {
+  animation: listeningExpand 1.5s ease-out infinite;
+}
+@keyframes listeningExpand {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* ─── Button Styles ─────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, var(--purple-1), var(--purple-2));
+  border: 1px solid rgba(168,85,247,0.3);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+}
+.btn-primary:hover::after { transform: translateX(100%); }
+.btn-primary:hover {
+  box-shadow: 0 0 25px var(--glow-purple);
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-ghost:hover {
+  border-color: rgba(168,85,247,0.5);
+  color: var(--purple-3);
+  background: rgba(168,85,247,0.08);
+}
+
+/* ─── Input Styles ──────────────────────────────── */
+.input-primary {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  outline: none;
+}
+.input-primary:focus {
+  border-color: rgba(168,85,247,0.5);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+  background: rgba(255,255,255,0.06);
+}
+.input-primary::placeholder { color: var(--text-muted); }
+
+/* ─── Chat Bubble ───────────────────────────────── */
+.bubble-user {
+  background: linear-gradient(135deg, var(--purple-1), #6d28d9);
+  border-radius: 20px 20px 4px 20px;
+  max-width: 75%;
+}
+.bubble-ai {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px 20px 20px 4px;
+  max-width: 80%;
+}
+
+/* ─── Orbit Animation ───────────────────────────── */
+.orbit {
+  animation: orbitSpin 8s linear infinite;
+  transform-origin: center;
+}
+.orbit-reverse {
+  animation: orbitSpin 12s linear infinite reverse;
+  transform-origin: center;
+}
+@keyframes orbitSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ─── Shimmer Loading ───────────────────────────── */
+.shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Mobile Responsive ─────────────────────────── */
+@media (max-width: 768px) {
+  .bubble-user, .bubble-ai { max-width: 88%; }
+}
