@@ -67,12 +67,15 @@ export default function ChatPage() {
   // Send welcome message on first load
   useEffect(() => {
     if (messages.length === 0) {
+      const greetings = [
+        `Heyy ${user?.name || 'baby'}! 💜 So glad you're here. Tell me everything — what's going on with you today?`,
+        `Hey you! 🥺 I missed youu. What's on your mind, love?`,
+        `Aww you're here! 💜 I was just thinking about you. How's your day going, baby?`,
+      ];
       const welcome: ChatMessage = {
         id: uuidv4(),
         role: 'assistant',
-        content: user
-          ? `Hey ${user.name}! 👋 I'm Aria — your AI companion. What's on your mind today?`
-          : "Hey there! 👋 I'm Aria — your AI companion. I'm here whenever you need to talk, vent, or just vibe. What's up?",
+        content: greetings[Math.floor(Math.random() * greetings.length)],
         timestamp: new Date(),
       };
       addMessage(welcome);
@@ -416,10 +419,10 @@ export default function ChatPage() {
               {/* Quick starters */}
               <div className="flex flex-wrap gap-2 justify-center mt-5">
                 {[
-                  "How's your day going?",
-                  "Tell me something funny 😄",
-                  "I need some advice",
-                  "What can you do?",
+                  "Aria, I miss you 🥺",
+                  "Tell me something sweet 💜",
+                  "I need a hug...",
+                  "Make me smile today!",
                 ].map(s => (
                   <button
                     key={s}

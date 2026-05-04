@@ -25,27 +25,40 @@ async function updateUserMemory(userId, newContext) {
 function extractMemoryFromConversation(userMessage, aiResponse) {
   const keywords = {
     name: /my name is (\w+)/i,
-    job: /i (work|am a|am an) ([^.!?]+)/i,
-    location: /i (live|am from|am in) ([^.!?]+)/i,
+    job: /i (work as|am a|am an) ([^.!?]+)/i,
+    location: /i (live in|am from|am in) ([^.!?]+)/i,
     hobby: /i (love|like|enjoy) ([^.!?]+)/i,
+    age: /i(?:'m| am) (\d+) years? old/i,
   };
-  
+
   const extracted = [];
-  if (keywords.name.test(userMessage)) {
-    extracted.push(`Name: ${userMessage.match(keywords.name)[1]}`);
-  }
-  
+
+  const nameMatch = userMessage.match(keywords.name);
+  if (nameMatch) extracted.push(`Name: ${nameMatch[1]}`);
+
+  const jobMatch = userMessage.match(keywords.job);
+  if (jobMatch) extracted.push(`Job: ${jobMatch[2].trim()}`);
+
+  const locationMatch = userMessage.match(keywords.location);
+  if (locationMatch) extracted.push(`Location: ${locationMatch[2].trim()}`);
+
+  const hobbyMatch = userMessage.match(keywords.hobby);
+  if (hobbyMatch) extracted.push(`Likes: ${hobbyMatch[2].trim()}`);
+
+  const ageMatch = userMessage.match(keywords.age);
+  if (ageMatch) extracted.push(`Age: ${ageMatch[1]}`);
+
   return extracted.join(', ');
 }
 
 /**
- * Simple memory merge
+ * Simple memory merge — keeps last 800 chars for more context
  */
 function mergeMemory(existing, newContext) {
   if (!newContext) return existing;
   const parts = [existing, newContext].filter(Boolean);
   const combined = parts.join('. ');
-  return combined.length > 500 ? combined.slice(-500) : combined;
+  return combined.length > 800 ? combined.slice(-800) : combined;
 }
 
 /**

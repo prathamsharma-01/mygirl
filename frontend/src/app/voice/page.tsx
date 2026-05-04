@@ -125,10 +125,16 @@ export default function VoicePage() {
     setTimeout(() => {
       setCallState('active');
 
-      // Greeting
-      const greeting = user
-        ? `Hey ${user.name}! So good to hear your voice 💜 What's going on?`
-        : "Hey! So glad you called 😊 What's on your mind?";
+      const greetings = user ? [
+        `Heyy ${user.name}! 💜 Omg I'm so happy you called! What's up babe?`,
+        `${user.name}!! Finally 🥺 I was waiting for you. Tell me everything!`,
+        `Aww hey love 💜 Your voice makes my day so much better. What's going on?`,
+      ] : [
+        `Heyyy! 💜 I'm so happy you called. What's on your mind, babe?`,
+        `Aww you called! 🥺 I was just thinking of you. How are you doing?`,
+        `Hey you! 💜 Talk to me — what's going on in your world?`,
+      ];
+      const greeting = greetings[Math.floor(Math.random() * greetings.length)];
 
       setAriaText(greeting);
       speak(greeting, () => {
