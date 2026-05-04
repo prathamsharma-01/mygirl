@@ -44,8 +44,16 @@ async function speakWithElevenLabs(
     audioRef.current = audio;
 
     audio.onplay = () => onStart();
-    audio.onended = () => { URL.revokeObjectURL(url); onEnd(); };
-    audio.onerror = () => { URL.revokeObjectURL(url); onError(); };
+    audio.onended = () => { 
+      URL.revokeObjectURL(url); 
+      audio.onerror = null; // Clear handler
+      onEnd(); 
+    };
+    audio.onerror = () => { 
+      URL.revokeObjectURL(url); 
+      audio.onerror = null;
+      onError(); 
+    };
 
     await audio.play();
   } catch (err) {
@@ -146,17 +154,21 @@ export function useVoice(onTranscript?: (text: string) => void): UseVoiceReturn 
     
     // Stop any current speech first
     if (audioRef.current) {
+      audioRef.current.onended = null;
+      audioRef.current.onerror = null; // Prevent triggering fallback
       audioRef.current.pause();
-      audioRef.current.src = '';
+      audioRef.current.removeAttribute('src'); // Better than src = ''
+      audioRef.current.load();
       setIsSpeaking(false);
     }
     synthRef.current?.cancel();
 
     try {
+      isRecognitionActiveRef.current = true;
       recognitionRef.current.start();
     } catch (e) {
       console.warn('Recognition start error:', e);
-      // Force reset active ref if it failed to start but might think it's starting
+      // Force reset active ref if it failed to start
       isRecognitionActiveRef.current = false;
     }
   }, []); // Remove isListening dependency to avoid stale state issues
@@ -241,8 +253,11 @@ export function useVoice(onTranscript?: (text: string) => void): UseVoiceReturn 
   const stopSpeaking = useCallback(() => {
     // Stop Google TTS audio
     if (audioRef.current) {
+      audioRef.current.onended = null;
+      audioRef.current.onerror = null;
       audioRef.current.pause();
-      audioRef.current.src = '';
+      audioRef.current.removeAttribute('src');
+      audioRef.current.load();
     }
     // Stop browser TTS
     if (synthRef.current?.speaking) {
