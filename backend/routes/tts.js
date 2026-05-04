@@ -19,7 +19,9 @@ router.post('/speak', async (req, res) => {
   // Helper to fetch Google Translate TTS as a fallback
   const fallbackGoogleTTS = async (text, res) => {
     try {
-      const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=en&client=tw-ob`;
+      // Google TTS has a 200 char limit. Truncate to prevent 400 errors.
+      const safeText = text.length > 200 ? text.substring(0, 197) + '...' : text;
+      const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(safeText)}&tl=en&client=tw-ob`;
       const response = await axios.get(googleUrl, {
         responseType: 'arraybuffer',
         headers: {
