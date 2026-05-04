@@ -35,13 +35,16 @@ async function speakWithElevenLabs(
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
 
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.src = '';
+    if (!audioRef.current) {
+      audioRef.current = new Audio();
     }
-
-    const audio = new Audio(url);
-    audioRef.current = audio;
+    const audio = audioRef.current;
+    
+    audio.pause();
+    audio.removeAttribute('src');
+    audio.load();
+    
+    audio.src = url;
 
     audio.onplay = () => onStart();
     audio.onended = () => { 

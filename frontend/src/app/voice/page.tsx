@@ -119,35 +119,31 @@ export default function VoicePage() {
 
   // Start call
   const startCall = useCallback(() => {
-    setCallState('connecting');
+    setCallState('active');
     setInCall(true);
 
-    setTimeout(() => {
-      setCallState('active');
+    const greetings = user ? [
+      `Heyy ${user.name}! 💜 Omg I'm so happy you called! What's up babe?`,
+      `${user.name}!! Finally 🥺 I was waiting for you. Tell me everything!`,
+      `Aww hey love 💜 Your voice makes my day so much better. What's going on?`,
+    ] : [
+      `Heyyy! 💜 I'm so happy you called. What's on your mind, babe?`,
+      `Aww you called! 🥺 I was just thinking of you. How are you doing?`,
+      `Hey you! 💜 Talk to me — what's going on in your world?`,
+    ];
+    const greeting = greetings[Math.floor(Math.random() * greetings.length)];
 
-      const greetings = user ? [
-        `Heyy ${user.name}! 💜 Omg I'm so happy you called! What's up babe?`,
-        `${user.name}!! Finally 🥺 I was waiting for you. Tell me everything!`,
-        `Aww hey love 💜 Your voice makes my day so much better. What's going on?`,
-      ] : [
-        `Heyyy! 💜 I'm so happy you called. What's on your mind, babe?`,
-        `Aww you called! 🥺 I was just thinking of you. How are you doing?`,
-        `Hey you! 💜 Talk to me — what's going on in your world?`,
-      ];
-      const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+    setAriaText(greeting);
+    speak(greeting, () => {
+      setCallState('listening');
+      setAriaText('');
+      startListening();
+    });
 
-      setAriaText(greeting);
-      speak(greeting, () => {
-        setCallState('listening');
-        setAriaText('');
-        startListening();
-      });
-
-      // Start timer
-      callTimerRef.current = setInterval(() => {
-        setCallDuration(d => d + 1);
-      }, 1000);
-    }, 1500);
+    // Start timer
+    callTimerRef.current = setInterval(() => {
+      setCallDuration(d => d + 1);
+    }, 1000);
   }, [user, speak, startListening, setInCall]);
 
   // End call
